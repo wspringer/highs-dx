@@ -28,12 +28,10 @@ jobs:
           done
 
           # Output the changeset content as an environment variable for later steps
-          echo "content<<EOF" >> $GITHUB_ENV
-          echo "$CHANGESET_CONTENT" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "content=$CHANGESET_CONTENT" >> $GITHUB_ENV
 
       - name: Update PR description with changeset content
-        if: env.content != ""
+        if: ${{ env.content && env.content != '' }}
         env:
           PR_BODY: "${{ github.event.pull_request.body }}"
           CHANGESET_CONTENT: "${{ env.content }}"
