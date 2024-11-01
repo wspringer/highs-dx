@@ -1,4 +1,4 @@
-import { resultType } from "./repr.types";
+import { resultType } from "./lp.types";
 
 type Assignable<T, U> = T extends U ? true : false;
 type Identical<T, U> = Assignable<T, U> & Assignable<U, T>;
@@ -7,7 +7,7 @@ const verify = <T extends true>() => {
   return true as T;
 };
 
-describe("repr utilities", () => {
+describe("lp utilities", () => {
   describe("resultType", () => {
     it("should work on a simple model", () => {
       type T = resultType<`

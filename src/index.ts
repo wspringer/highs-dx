@@ -1,1 +1,1 @@
-export { resultType } from "./repr.types";
+export { resultType } from "./lp.types";

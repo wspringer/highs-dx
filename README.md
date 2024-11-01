@@ -1,3 +1,5 @@
 # README
 
-LPTS is a testbed for ultimately having a better user experience integrating linear programming models into TypeScript modules.
+`highs-ts` is a work in progress project for having a better developer
+experience integrating highs-js in TypeScript. It builds on highs-js, the
+JavaScript wrapper around the WASM implementation of HiGHS.
