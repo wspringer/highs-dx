@@ -1,6 +1,3 @@
-/* prettier-ignore-file */
-/* eslint-disable */
-
 // Helper Types
 type Trim<S extends string> = S extends ` ${infer T}`
   ? Trim<T>
