@@ -23,14 +23,18 @@ jobs:
           # Compare with the base branch to find only new changeset files in this PR
           CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- .changeset/*.md)
 
-          # Read the content of these files
+          # Initialize an empty content variable
           CHANGESET_CONTENT=""
+
+          # Read the content of these files
           for FILE in $CHANGED_FILES; do
             CHANGESET_CONTENT="$CHANGESET_CONTENT$(cat $FILE)\n\n"
           done
 
-          # Output the changeset content as an environment variable for later steps
-          echo "content=$CHANGESET_CONTENT" >> $GITHUB_ENV
+          # Write the changeset content to the GITHUB_ENV file safely using EOF
+          echo "content<<EOF" >> $GITHUB_ENV
+          echo -e "$CHANGESET_CONTENT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Update PR description with changeset content
         if: ${{ env.content && env.content != '' }}
