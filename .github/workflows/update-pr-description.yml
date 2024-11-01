@@ -4,6 +4,10 @@ on:
   pull_request:
     types: [opened, synchronize]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   update-pr-description:
     runs-on: ubuntu-latest
@@ -25,8 +29,9 @@ jobs:
           for FILE in $CHANGED_FILES; do
             CHANGESET_CONTENT="$CHANGESET_CONTENT$(cat $FILE)\n\n"
           done
+          # Save the changeset content to the environment
           echo "content<<EOF" >> $GITHUB_ENV
-          echo -e "$CHANGESET_CONTENT" >> $GITHUB_ENV
+          printf "$CHANGESET_CONTENT\n" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
       - name: Update PR description with changeset content and project cards
@@ -34,9 +39,10 @@ jobs:
         env:
           PR_BODY: "${{ github.event.pull_request.body }}"
           CHANGESET_CONTENT: "${{ env.content }}"
-          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }} # Use PAT instead of GITHUB_TOKEN
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
-          UPDATED_BODY="$PR_BODY\n\n### Changeset Summary:\n$CHANGESET_CONTENT"
+          # Construct the markdown body using printf for proper newlines
+          UPDATED_BODY=$(printf "%s\n\n### Changeset Summary:\n\n%s" "$PR_BODY" "$CHANGESET_CONTENT")
 
-          # Use the GitHub CLI to update the PR description and access project cards
+          # Use the GitHub CLI to update the PR description
           gh pr edit ${{ github.event.pull_request.number }} --body "$UPDATED_BODY"
