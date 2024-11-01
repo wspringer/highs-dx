@@ -1,0 +1,57 @@
+name: Update PR with Changeset Information
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-pr-description:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install Changesets CLI
+        run: npm install @changesets/cli
+
+      - name: Get changeset files in the current branch
+        id: changesets
+        run: |
+          # Get all changeset files in the current branch
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- .changeset/*.md)
+          CHANGESET_CONTENT=""
+
+          # Read each changeset file and concatenate with a newline between files
+          for FILE in $CHANGED_FILES; do
+            CONTENT=$(cat "$FILE")
+            if [ -z "$CHANGESET_CONTENT" ]; then
+              CHANGESET_CONTENT="$CONTENT"
+            else
+              CHANGESET_CONTENT="$CHANGESET_CONTENT\n\n$CONTENT"
+            fi
+          done
+
+          # Set CHANGESET_CONTENT as an environment variable
+          echo "content<<EOF" >> $GITHUB_ENV
+          echo -e "$CHANGESET_CONTENT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Update PR description with changeset content and project cards
+        if: ${{ env.content && env.content != '' }}
+        env:
+          PR_BODY: "${{ github.event.pull_request.body }}"
+          CHANGESET_CONTENT: "${{ env.content }}"
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+        run: |
+          # Construct the markdown body with proper newlines
+          UPDATED_BODY=$(printf "%s\n\n### Changeset Summary:\n\n%s\n" "$PR_BODY" "$CHANGESET_CONTENT")
+
+          # Use the GitHub CLI to update the PR description
+          gh pr edit ${{ github.event.pull_request.number }} --body "$UPDATED_BODY"

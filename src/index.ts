@@ -1,1 +1,1 @@
-export { resultType } from "./lp.types";
+export { VariableNameOf as resultType } from "./lp.types";
