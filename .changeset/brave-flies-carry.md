@@ -1,5 +1,5 @@
 ---
-"lpts": minor
+"highs-ts": minor
 ---
 
 Switch from lp_solve syntax to CPLEX lp syntax

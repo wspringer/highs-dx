@@ -24,18 +24,23 @@ jobs:
       - name: Get changeset files in the current branch
         id: changesets
         run: |
-          # Compare with the base branch to find only new changeset files in this PR
+          # Get all changeset files in the current branch
           CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- .changeset/*.md)
           CHANGESET_CONTENT=""
 
-          # Read and concatenate the content of each changeset file
+          # Read each changeset file and concatenate with a newline between files
           for FILE in $CHANGED_FILES; do
-            CHANGESET_CONTENT="$CHANGESET_CONTENT$(cat $FILE)\n\n"
+            CONTENT=$(cat "$FILE")
+            if [ -z "$CHANGESET_CONTENT" ]; then
+              CHANGESET_CONTENT="$CONTENT"
+            else
+              CHANGESET_CONTENT="$CHANGESET_CONTENT\n\n$CONTENT"
+            fi
           done
 
-          # Safely set CHANGESET_CONTENT as an environment variable using <<EOF
+          # Set CHANGESET_CONTENT as an environment variable
           echo "content<<EOF" >> $GITHUB_ENV
-          echo "$CHANGESET_CONTENT" >> $GITHUB_ENV
+          echo -e "$CHANGESET_CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
       - name: Update PR description with changeset content and project cards
@@ -45,7 +50,7 @@ jobs:
           CHANGESET_CONTENT: "${{ env.content }}"
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
-          # Use printf safely to construct the markdown body with proper newlines
+          # Construct the markdown body with proper newlines
           UPDATED_BODY=$(printf "%s\n\n### Changeset Summary:\n\n%s\n" "$PR_BODY" "$CHANGESET_CONTENT")
 
           # Use the GitHub CLI to update the PR description
