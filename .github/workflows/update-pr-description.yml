@@ -1,0 +1,46 @@
+name: Update PR with Changeset Information
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  update-pr-description:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Install Changesets CLI
+        run: npm install @changesets/cli
+
+      - name: Get changeset files in the current branch
+        id: changesets
+        run: |
+          # Compare with the base branch to find only new changeset files in this PR
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- .changeset/*.md)
+
+          # Read the content of these files
+          CHANGESET_CONTENT=""
+          for FILE in $CHANGED_FILES; do
+            CHANGESET_CONTENT="$CHANGESET_CONTENT$(cat $FILE)\n\n"
+          done
+
+          # Output the changeset content as an environment variable for later steps
+          echo "content<<EOF" >> $GITHUB_ENV
+          echo "$CHANGESET_CONTENT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Update PR description with changeset content
+        if: env.content != ""
+        env:
+          PR_BODY: "${{ github.event.pull_request.body }}"
+          CHANGESET_CONTENT: "${{ env.content }}"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Append the changeset content to the existing PR description
+          UPDATED_BODY="$PR_BODY\n\n### Changeset Summary:\n$CHANGESET_CONTENT"
+
+          # Use the GitHub CLI to update the PR description
+          gh pr edit ${{ github.event.pull_request.number }} --body "$UPDATED_BODY"
