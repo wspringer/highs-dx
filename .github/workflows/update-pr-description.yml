@@ -4,10 +4,6 @@ on:
   pull_request:
     types: [opened, synchronize]
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   update-pr-description:
     runs-on: ubuntu-latest
@@ -16,7 +12,7 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Fetch all branches
+          fetch-depth: 0
 
       - name: Install Changesets CLI
         run: npm install @changesets/cli
@@ -24,31 +20,23 @@ jobs:
       - name: Get changeset files in the current branch
         id: changesets
         run: |
-          # Compare with the base branch to find only new changeset files in this PR
           CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- .changeset/*.md)
-
-          # Initialize an empty content variable
           CHANGESET_CONTENT=""
-
-          # Read the content of these files
           for FILE in $CHANGED_FILES; do
             CHANGESET_CONTENT="$CHANGESET_CONTENT$(cat $FILE)\n\n"
           done
-
-          # Write the changeset content to the GITHUB_ENV file safely using EOF
           echo "content<<EOF" >> $GITHUB_ENV
           echo -e "$CHANGESET_CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - name: Update PR description with changeset content
+      - name: Update PR description with changeset content and project cards
         if: ${{ env.content && env.content != '' }}
         env:
           PR_BODY: "${{ github.event.pull_request.body }}"
           CHANGESET_CONTENT: "${{ env.content }}"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }} # Use PAT instead of GITHUB_TOKEN
         run: |
-          # Append the changeset content to the existing PR description
           UPDATED_BODY="$PR_BODY\n\n### Changeset Summary:\n$CHANGESET_CONTENT"
 
-          # Use the GitHub CLI to update the PR description
+          # Use the GitHub CLI to update the PR description and access project cards
           gh pr edit ${{ github.event.pull_request.number }} --body "$UPDATED_BODY"
