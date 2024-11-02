@@ -1,4 +1,4 @@
-import configureHighs from "highs";
+import configureHighs from "./index";
 import { verify, Identical } from "../test/util.types";
 
 describe("highs", () => {
