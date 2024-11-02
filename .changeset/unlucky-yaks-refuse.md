@@ -1,5 +1,5 @@
 ---
-"highs-ts": patch
+"highs-dx": patch
 ---
 
 Prevents the tests from getting exported

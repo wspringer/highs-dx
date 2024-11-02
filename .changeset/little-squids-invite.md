@@ -1,6 +1,5 @@
 ---
-"highs-ts": minor
+"highs-dx": minor
 ---
 
-Fixes an issue that caused the `VariableNameOf` type to be exported under the wrong name.  
-
+Fixes an issue that caused the `VariableNameOf` type to be exported under the wrong name.
