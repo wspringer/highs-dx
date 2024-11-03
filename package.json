@@ -9,11 +9,17 @@
   ],
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
+  "files": [
+    "build/src/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "jest",
     "lint": "eslint",
-    "clean": "rimraf build"
+    "clean": "rimraf build",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "highs",
