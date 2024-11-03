@@ -1,3 +1,7 @@
+/**
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2024 Wilfred Springer
+ */
 export { Highs, HighsSolution, GenericHighsSolution } from "./highs.types";
 export { default } from "./highs";
 export {

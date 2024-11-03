@@ -1,4 +1,9 @@
-/** @type {import('ts-jest').JestConfigWithTsJest} **/
+/**
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2024 Wilfred Springer
+ *
+ * @type {import('ts-jest').JestConfigWithTsJest} *
+ */
 module.exports = {
   testEnvironment: "node",
   transform: {

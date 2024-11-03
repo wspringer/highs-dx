@@ -1,3 +1,7 @@
+/**
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2024 Wilfred Springer
+ */
 import highsJsLoader, { HighsLoaderOptions } from "highs";
 import { Highs } from "./highs.types";
 
