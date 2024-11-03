@@ -1,5 +1,7 @@
 # README
 
+![Build Status](https://github.com/wspringer/highs-dx/actions/workflows/build.yml/badge.svg?branch=main)
+
 `highs-dx` is offering a slightly improved developer experience when using
 [HiGHS](https://highs.dev/) in a TypeScript environment. The one thing it adds
 on top of everything offered through
