@@ -38,5 +38,9 @@
   },
   "dependencies": {
     "highs": "^1.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "wspringer/highs-dx"
   }
 }
