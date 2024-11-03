@@ -10,6 +10,25 @@ variables of the solution. That means the **TypeScript compiler** will prevent
 you from referring to undefined variables in your model, and your **IDE** will
 give sensible completion for all the variables at your disposal.
 
+### Code Completion
+
+In the image below, the code in the top pane shows a model integrated with
+**highs-js**. As you can tell, VSCode informs you that, as it comes to
+completion, your guess is as good as his. However, in the code right beneath,
+the code that is integrated with **highs-dx**, VSCode is able to tell that the
+only variables in the model are x1, x2, x3, and x4.
+
+![Code Completion](./docs/img/completion.png)
+
+### Compiler Support
+
+In the **highs-js** case, there is nothing preventing you from referring to
+variables that are not defined by the model. In the **highs-dx** case however,
+the _TypeScript compiler_ will prevent you from referring to undefined model
+variables.
+
+![Compiler Support](./docs/img/compilation-issue.png)
+
 Currently, this library is a drop-in replacement for
 [highs-js](https://github.com/lovasoa/highs-js). It works exactly the same; it just sprinkles some type fairy dust on top of it.
 
