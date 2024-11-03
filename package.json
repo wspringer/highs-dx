@@ -48,5 +48,8 @@
   "repository": {
     "type": "git",
     "url": "wspringer/highs-dx"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
