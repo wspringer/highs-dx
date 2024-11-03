@@ -1,4 +1,7 @@
-// Helper Types
+/**
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2024 Wilfred Springer
+ */
 type Trim<S extends string> = S extends ` ${infer T}`
   ? Trim<T>
   : S extends `${infer T} `

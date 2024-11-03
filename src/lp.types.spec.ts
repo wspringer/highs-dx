@@ -1,3 +1,7 @@
+/**
+ * SPDX-License-Identifier: MIT
+ * Copyright (c) 2024 Wilfred Springer
+ */
 import { VariableNameOf } from "./lp.types";
 import { verify, Identical } from "../test/util.types";
 
