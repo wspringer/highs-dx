@@ -4,14 +4,14 @@
 
 `highs-dx` is offering a slightly improved developer experience when using
 [HiGHS](https://highs.dev/) in a TypeScript environment. The one thing it adds
-on top of everything offered through
+on top of all of the wonderful things offered through
 [highs-js](https://github.com/lovasoa/highs-js) is typesafe access to the
 variables of the solution. That means the **TypeScript compiler** will prevent
 you from referring to undefined variables in your model, and your **IDE** will
 give sensible completion for all the variables at your disposal.
 
 Currently, this library is a drop-in replacement for
-[highs-js](https://github.com/lovasoa/highs-js).
+[highs-js](https://github.com/lovasoa/highs-js). It works exactly the same; it just sprinkles some type fairy dust on top of it.
 
 ## Usage
 
