@@ -12,10 +12,7 @@ In the image below, the top pane shows a model using **highs-js**, where VSCode 
 
 ### Compiler Support
 
-In the **highs-js** case, there is nothing preventing you from referring to
-variables that are not defined by the model. In the **highs-dx** case however,
-the _TypeScript compiler_ will prevent you from referring to undefined model
-variables.
+With **highs-js**, there’s no safeguard against referencing variables that aren’t defined in the model. However, with **highs-dx**, the _TypeScript compiler_ actively prevents you from using undefined model variables, adding an extra layer of security.
 
 ![Compiler Support](./docs/img/compilation-issue.png)
 
