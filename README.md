@@ -2,13 +2,7 @@
 
 ![Build Status](https://github.com/wspringer/highs-dx/actions/workflows/build.yml/badge.svg?branch=main)
 
-`highs-dx` offers a slightly improved developer experience when using
-[HiGHS](https://highs.dev/) in a TypeScript environment. The one thing it adds
-on top of all of the wonderful things offered through
-[highs-js](https://github.com/lovasoa/highs-js) is typesafe access to the
-variables of the solution. That means the **TypeScript compiler** will prevent
-you from referring to undefined variables in your model, and your **IDE** will
-give sensible completion for all the variables at your disposal.
+`highs-dx` enhances the developer experience of using [HiGHS](https://highs.dev/) in TypeScript by adding an extra layer of type safety on top of the features provided by [highs-js](https://github.com/lovasoa/highs-js). With `highs-dx`, you gain **typesafe access** to solution variables, meaning the **TypeScript compiler** will catch any attempt to reference undefined variables in your model. Additionally, your **IDE** will offer relevant and accurate auto-completions for all defined variables, streamlining the coding process.
 
 ### Code Completion
 
