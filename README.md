@@ -6,11 +6,7 @@
 
 ### Code Completion
 
-In the image below, the code in the top pane shows a model integrated with
-**highs-js**. As you can tell, VSCode informs you that, as it comes to
-completion, your guess is as good as his. However, in the code right beneath,
-the code that is integrated with **highs-dx**, VSCode is able to tell that the
-only variables in the model are x1, x2, x3, and x4.
+In the image below, the top pane shows a model using **highs-js**, where VSCode provides limited assistance with variable completion. In contrast, the bottom pane—using **highs-dx**—enables VSCode to recognize and suggest only the valid model variables (`x1`, `x2`, `x3`, and `x4`), making it easier to work confidently with defined variables.
 
 ![Code Completion](./docs/img/completion.png)
 
