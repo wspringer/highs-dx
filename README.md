@@ -2,7 +2,7 @@
 
 ![Build Status](https://github.com/wspringer/highs-dx/actions/workflows/build.yml/badge.svg?branch=main)
 
-`highs-dx` is offering a slightly improved developer experience when using
+`highs-dx` offers a slightly improved developer experience when using
 [HiGHS](https://highs.dev/) in a TypeScript environment. The one thing it adds
 on top of all of the wonderful things offered through
 [highs-js](https://github.com/lovasoa/highs-js) is typesafe access to the
@@ -48,14 +48,8 @@ use it in _exactly_ the same way as
 
 It doesn't have to be, but there's no free ride. Adding typesafety to model
 variable references requires quite a bit of typescript magic, which might impact
-your compilation times. Also, it's not battletested yet: it might break with
-larger models. So, handle with care.
+your compilation times. Additionally, highs-dx is not fully battle-tested; larger models may expose unforeseen limitations, so please use it with caution.
 
 ### The parser doesn't seem very accurate. Why is that?
 
-CPLEX lp is pretty forgiven, but as a consequence, the type structures required
-to exactly represent the AST and balancing that with the limitations of
-TypeScript resulted into models where TypeScript basically just gave up. As a
-consequence, I switched to a slightly different approach where I'm not exactly
-"parsing" the AST, but look for patterns. The results are fairly accurate at
-this stage, but I'm not making any guarantees it will work in all situations.
+The CPLEX LP format is quite permissive, which complicates exact type representation of the AST. At times, TypeScript may default to any due to complexity limitations. To improve reliability, I switched to a pattern-matching approach rather than strict parsing of the AST. This workaround is generally effective, though accuracy in all scenarios cannot yet be guaranteed.
